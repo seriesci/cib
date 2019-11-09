@@ -1,19 +1,24 @@
 
 # cib
 
-Your friendly seriesci bot.
+I'm your friendly seriesci bot.
 
 > currently in alpha
 
 ## How-to
 
-1. Add our [GitHub application](https://github.com/apps/seriesci) to your repository
-1. Add the `SERIESCI_TOKEN` environment variable to your CI
-1. Download cib and let it do its job
+1. Add my [GitHub application](https://github.com/apps/seriesci) to your repository
+1. Add the `SERIESCI_TOKEN` environment variable to your CI, e.g.
+    - [GitHub Actions](https://help.github.com/en/actions/automating-your-workflow-with-github-actions/creating-and-using-encrypted-secrets)
+    - [CircleCI](https://circleci.com/docs/2.0/env-vars/)
+    - [Travis CI](https://docs.travis-ci.com/user/environment-variables/)
+    - [Azure DevOps](https://docs.microsoft.com/en-us/azure/devops/pipelines/process/variables)
+    - ...
+1. Download me (coming soon) and let me do my job
 
 ## What
 
-I keep an eye on your key performance indicators so you don't have to. I like working with:
+I keep an eye on your key performance indicators (KPIs) so you don't have to. I like working with:
 
 - [create-react-app](https://github.com/facebook/create-react-app)
     - code coverage
