@@ -39,7 +39,7 @@ func main() {
 	fmt.Printf("cib: %s environment variable %s found\n", green(check), blue("SERIESCI_TOKEN"))
 
 	// check programming language
-	_, err := language.Detect()
+	_, err := language.Detect(".")
 	if err != nil {
 		panic(err)
 	}
