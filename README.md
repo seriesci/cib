@@ -7,7 +7,7 @@ I'm your friendly seriesci bot.
 
 ## How-to
 
-1. Add my [GitHub application](https://github.com/apps/seriesci) to your repository
+1. Install my [GitHub application](https://github.com/apps/seriesci) for your repository
 1. Add the `SERIESCI_TOKEN` environment variable to your CI, e.g.
     - [GitHub Actions](https://help.github.com/en/actions/automating-your-workflow-with-github-actions/creating-and-using-encrypted-secrets)
     - [CircleCI](https://circleci.com/docs/2.0/env-vars/)
