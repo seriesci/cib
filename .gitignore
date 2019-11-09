@@ -1,8 +1,8 @@
-node_modules/
-build/
-coverage/
-public/
-src/
-lighthouse.json
-package-lock.json
-package.json
+/node_modules/
+/build/
+/coverage/
+/public/
+/src/
+/lighthouse.json
+/package-lock.json
+/package.json
