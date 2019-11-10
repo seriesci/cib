@@ -1,6 +1,10 @@
 
 # cib
 
+https://github.com/seriesci/cib/workflows/Test/badge.svg
+
+[![GitHub Actions](https://github.com/seriesci/cib/workflows/test/badge.svg)](https://github.com/seriesci/cib/actions?query=workflow%3Atest)
+
 I'm your friendly seriesci bot.
 
 > currently in alpha
