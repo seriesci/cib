@@ -23,10 +23,12 @@ jobs:
     #     go get golang.org/x/lint/golint
     #     golint -set_exit_status ./...
 
-    # - name: staticcheck
-    #   run: |
-    #     go get honnef.co/go/tools/cmd/staticcheck
-    #     staticcheck ./...
+    - name: staticcheck
+      run: |
+        go get honnef.co/go/tools/cmd/staticcheck
+        echo $GOBIN
+        echo $GOPATH
+        staticcheck ./...
 
     - name: test
       run: go test -race -v ./...
