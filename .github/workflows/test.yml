@@ -25,9 +25,8 @@ jobs:
 
     - name: staticcheck
       run: |
+        export PATH=$PATH:$(go env GOPATH)/bin
         go get honnef.co/go/tools/cmd/staticcheck
-        echo $GOBIN
-        echo $GOPATH
         staticcheck ./...
 
     - name: test
