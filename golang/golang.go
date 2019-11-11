@@ -81,7 +81,7 @@ func Run() error {
 		return err
 	}
 
-	cli.Checkf("response status code: %s, body: %s", res.StatusCode, string(body))
+	cli.Checkf("response status code: %s, body: %s\n", res.StatusCode, string(body))
 
 	// done
 	cli.Checkln("I'm done. See", cli.Blue("https://seriesci.com/seriesci/cib/series/master/coverage"))
