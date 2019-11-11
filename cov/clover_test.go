@@ -1,20 +1,13 @@
 package cov
 
 import (
-	"encoding/xml"
-	"io/ioutil"
 	"path/filepath"
 	"testing"
 )
 
 func TestStatements(t *testing.T) {
-	b, err := ioutil.ReadFile(filepath.Join("testdata", "clover.xml"))
+	c, err := ReadUnmarshal(filepath.Join("testdata", "clover.xml"))
 	if err != nil {
-		t.Fatal(err)
-	}
-
-	var c Coverage
-	if err := xml.Unmarshal(b, &c); err != nil {
 		t.Fatal(err)
 	}
 

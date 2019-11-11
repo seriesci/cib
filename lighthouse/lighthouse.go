@@ -1,5 +1,10 @@
 package lighthouse
 
+import (
+	"encoding/json"
+	"io/ioutil"
+)
+
 // AuditRef type definitions.
 type AuditRef struct {
 	ID     string `json:"id"`
@@ -29,4 +34,15 @@ type Categories struct {
 // Report type definitions. It contains only what we need.
 type Report struct {
 	Categories Categories `json:"categories"`
+}
+
+// ReadUnmarshal reads lighthouse JSON file and returns proper structs.
+func ReadUnmarshal(path string) (*Report, error) {
+	b, err := ioutil.ReadFile(path)
+	if err != nil {
+		return nil, err
+	}
+
+	var r Report
+	return &r, json.Unmarshal(b, &r)
 }

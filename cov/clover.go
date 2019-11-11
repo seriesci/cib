@@ -1,6 +1,9 @@
 package cov
 
-import "encoding/xml"
+import (
+	"encoding/xml"
+	"io/ioutil"
+)
 
 // Metrics is clover metrics.
 type Metrics struct {
@@ -29,4 +32,15 @@ type Coverage struct {
 	Generated int64    `xml:"generated,attr"`
 	Clover    string   `xml:"clover,attr"`
 	Project   Project  `xml:"project"`
+}
+
+// ReadUnmarshal reads XML file and returns proper structs.
+func ReadUnmarshal(path string) (*Coverage, error) {
+	b, err := ioutil.ReadFile(path)
+	if err != nil {
+		return nil, err
+	}
+
+	var c Coverage
+	return &c, xml.Unmarshal(b, &c)
 }

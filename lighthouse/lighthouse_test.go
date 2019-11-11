@@ -1,20 +1,13 @@
 package lighthouse
 
 import (
-	"encoding/json"
-	"io/ioutil"
 	"path/filepath"
 	"testing"
 )
 
 func TestCategories(t *testing.T) {
-	b, err := ioutil.ReadFile(filepath.Join("testdata", "lighthouse.json"))
+	report, err := ReadUnmarshal(filepath.Join("testdata", "lighthouse.json"))
 	if err != nil {
-		t.Fatal(err)
-	}
-
-	var report Report
-	if err := json.Unmarshal(b, &report); err != nil {
 		t.Fatal(err)
 	}
 

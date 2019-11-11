@@ -30,3 +30,6 @@ jobs:
 
     - name: test
       run: go test -race -v ./...
+
+    - name: cib
+      run: go run main.go
