@@ -18,10 +18,10 @@ jobs:
     - name: vet
       run: go vet ./...
 
-    - name: lint
-      run: |
-        go get golang.org/x/lint/golint
-        golint -set_exit_status ./...
+    # - name: lint
+    #   run: |
+    #     go get golang.org/x/lint/golint
+    #     golint -set_exit_status ./...
 
     - name: staticcheck
       run: |
