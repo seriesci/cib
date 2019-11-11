@@ -33,3 +33,5 @@ jobs:
 
     - name: cib
       run: go run main.go
+      env:
+        SERIESCI_TOKEN: ${{ secrets.SERIESCI_TOKEN }}
