@@ -28,6 +28,7 @@ func Post(value string) (*http.Response, error) {
 
 	token := os.Getenv("SERIESCI_TOKEN")
 	req.Header.Set("Authorization", fmt.Sprintf("Token %s", token))
+	req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
 
 	return http.DefaultClient.Do(req)
 }
