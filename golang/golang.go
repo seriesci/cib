@@ -82,7 +82,7 @@ func Run() error {
 		return err
 	}
 
-	cli.Checkf("response status code: %s, body: %s\n", res.StatusCode, string(body))
+	cli.Checkf("post %s: res status code: %s, body: %s\n", api.SeriesCoverage, res.StatusCode, string(body))
 
 	// build binary to get size
 	buildArgs := []string{
@@ -97,7 +97,7 @@ func Run() error {
 		return err
 	}
 
-	cli.Checkf("binary %s built", "binary_by_seriesci")
+	cli.Checkf("binary %s built\n", "binary_by_seriesci")
 
 	info, err := os.Stat("binary_by_seriesci")
 	if err != nil {
@@ -118,7 +118,7 @@ func Run() error {
 		return err
 	}
 
-	cli.Checkf("response status code: %s, body: %s\n", res.StatusCode, string(body))
+	cli.Checkf("post %s: res status code: %s, body: %s\n", api.SeriesFileSize, res.StatusCode, string(body))
 
 	// done
 	cli.Checkln("I'm done. See", cli.Blue("https://seriesci.com/seriesci/cib"))
