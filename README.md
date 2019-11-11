@@ -2,6 +2,8 @@
 # cib
 
 [![GitHub Actions](https://github.com/seriesci/cib/workflows/test/badge.svg)](https://github.com/seriesci/cib/actions?query=workflow%3Atest)
+[![seriesci coverage](https://seriesci.com/seriesci/cib/series/master/coverage.svg)](https://seriesci.com/seriesci/cib/series/master/coverage)
+[![seriesci file size](https://seriesci.com/seriesci/cib/series/master/size.svg)](https://seriesci.com/seriesci/cib/series/master/size)
 
 I'm your friendly seriesci bot.
 
