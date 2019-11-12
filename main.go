@@ -4,6 +4,7 @@ import (
 	"errors"
 	"os"
 
+	"github.com/fatih/color"
 	"github.com/seriesci/cib/cli"
 	"github.com/seriesci/cib/golang"
 	"github.com/seriesci/cib/javascript"
@@ -11,6 +12,11 @@ import (
 )
 
 func main() {
+	// enable colored output on ci
+	if os.Getenv("CI") != "" {
+		color.NoColor = false
+	}
+
 	// check token
 	_, ok := os.LookupEnv("SERIESCI_TOKEN")
 	if !ok {
