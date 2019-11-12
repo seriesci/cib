@@ -117,7 +117,7 @@ func Post(value, series string) error {
 		return err
 	}
 
-	cli.Checkf("post %s: status code: %s, body: %s\n", series, res.StatusCode, body)
+	cli.Checkf("post %s: status code: %s, body: %s\n", series, res.StatusCode, string(body))
 
 	return nil
 }
