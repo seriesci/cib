@@ -13,7 +13,7 @@ import (
 
 func main() {
 	// enable colored output on ci
-	if os.Getenv("CI") != "" {
+	if os.Getenv("GITHUB_ACTIONS") != "" {
 		color.NoColor = false
 	}
 
