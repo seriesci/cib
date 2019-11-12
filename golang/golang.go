@@ -69,7 +69,7 @@ func Run() error {
 		return err
 	}
 
-	cli.Checkln("total coverage (statements) is", cli.Blue(total))
+	cli.Checkln("total coverage (statements) is", total)
 
 	res, err := api.Post(total, api.SeriesCoverage)
 	if err != nil {
@@ -105,7 +105,7 @@ func Run() error {
 	}
 
 	size := fmt.Sprintf("%.2fMB", float64(info.Size())/1000/1000)
-	cli.Checkln("binary file size is", cli.Blue(size))
+	cli.Checkln("binary file size is", size)
 
 	res, err = api.Post(size, api.SeriesFileSize)
 	if err != nil {
@@ -121,7 +121,7 @@ func Run() error {
 	cli.Checkf("post %s: res status code: %s, body: %s\n", api.SeriesFileSize, res.StatusCode, string(body))
 
 	// done
-	cli.Checkln("I'm done. See", cli.Blue("https://seriesci.com/seriesci/cib"))
+	cli.Checkln("I'm done. See", "https://seriesci.com/seriesci/cib")
 
 	return nil
 }
