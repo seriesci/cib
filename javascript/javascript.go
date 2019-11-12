@@ -70,7 +70,7 @@ func Run() error {
 
 	fmt.Printf("cib: %s build took %s\n", green(check), blue(elapsed))
 
-	if err := api.Post(fmt.Sprintf("%s", elapsed), api.SeriesTime); err != nil {
+	if err := api.Post(elapsed.String(), api.SeriesTime); err != nil {
 		return err
 	}
 
