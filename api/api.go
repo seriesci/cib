@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"net/url"
 	"os"
+	"os/exec"
 	"strings"
 )
 
@@ -14,12 +15,45 @@ const (
 	SeriesFileSize = "size"
 )
 
+// get sha depending on ci environment.
+func sha() (string, error) {
+	// github actions
+	sha, ok := os.LookupEnv("GITHUB_SHA")
+	if ok {
+		return sha, nil
+	}
+
+	// travis ci
+	sha, ok = os.LookupEnv("TRAVIS_COMMIT")
+	if ok {
+		return sha, nil
+	}
+
+	// circle ci
+	sha, ok = os.LookupEnv("CIRCLE_SHA1")
+	if ok {
+		return sha, nil
+	}
+
+	// default git
+	out, err := exec.Command("git", "rev-parse", "HEAD").Output()
+	if err != nil {
+		return "", err
+	}
+	return strings.TrimSpace(string(out)), nil
+}
+
 // Post something.
 // currently only works with GitHub Actions.
 func Post(value, series string) (*http.Response, error) {
+	s, err := sha()
+	if err != nil {
+		return nil, err
+	}
+
 	data := url.Values{
 		"value": {value},
-		"sha":   {os.Getenv("GITHUB_SHA")},
+		"sha":   {s},
 	}
 
 	// IMPORTANT: this only works for GitHub Actions at the moment
