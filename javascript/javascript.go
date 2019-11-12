@@ -8,11 +8,13 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
+	"os"
 	"os/exec"
 	"path/filepath"
 	"time"
 
 	"github.com/fatih/color"
+	"github.com/seriesci/cib/api"
 	"github.com/seriesci/cib/cov"
 	"github.com/seriesci/cib/lighthouse"
 	"github.com/seriesci/cib/size"
@@ -58,8 +60,8 @@ func Run() error {
 	start := time.Now()
 
 	buildCmd := exec.Command("npm", "run", "build")
-	// buildCmd.Stdout = os.Stdout
-	// buildCmd.Stderr = os.Stderr
+	buildCmd.Stdout = os.Stdout
+	buildCmd.Stderr = os.Stderr
 	if err := buildCmd.Run(); err != nil {
 		return err
 	}
@@ -68,12 +70,20 @@ func Run() error {
 
 	fmt.Printf("cib: %s build took %s\n", green(check), blue(elapsed))
 
+	if err := api.Post(fmt.Sprintf("%s", elapsed), api.SeriesTime); err != nil {
+		return err
+	}
+
 	// run bundle size
 	s, err := size.Directory("build")
 	if err != nil {
 		return err
 	}
 	fmt.Printf("cib: %s total size of \"build\" directory is %s\n", green(check), blue(s, "kB"))
+
+	if err := api.Post(fmt.Sprintf("%fK", s), api.SeriesBundleSize); err != nil {
+		return err
+	}
 
 	// edit package.json and add clover coverage reporter
 	result["jest"] = map[string][]string{
@@ -97,8 +107,8 @@ func Run() error {
 		"--watchAll=false",
 	}
 	covCmd := exec.Command("npm", covArgs...)
-	// covCmd.Stdout = os.Stdout
-	// covCmd.Stderr = os.Stderr
+	covCmd.Stdout = os.Stdout
+	covCmd.Stderr = os.Stderr
 	if err := covCmd.Run(); err != nil {
 		return err
 	}
@@ -119,6 +129,10 @@ func Run() error {
 
 	fmt.Printf("cib: %s code coverage is %s\n", green(check), blue(fmt.Sprintf("%.2f%%", cs)))
 
+	if err := api.Post(fmt.Sprintf("%.2f%%", cs), api.SeriesCoverage); err != nil {
+		return err
+	}
+
 	// count dependencies
 	dependencies, ok := result["dependencies"].(map[string]interface{})
 	if !ok {
@@ -126,6 +140,10 @@ func Run() error {
 	}
 
 	fmt.Printf("cib: %s %s dependencies found\n", green(check), blue(len(dependencies)))
+
+	if err := api.Post(fmt.Sprintf("%d", len(dependencies)), api.SeriesDependencies); err != nil {
+		return err
+	}
 
 	// run lighthouse
 	http.Handle("/", http.FileServer(http.Dir("build")))
@@ -150,8 +168,8 @@ func Run() error {
 		`--chrome-flags="--headless"`,
 	}
 	lighthouseCMD := exec.Command("npx", lighthouseArgs...)
-	// lighthouseCMD.Stdout = os.Stdout
-	// lighthouseCMD.Stderr = os.Stderr
+	lighthouseCMD.Stdout = os.Stdout
+	lighthouseCMD.Stderr = os.Stderr
 	if err := lighthouseCMD.Run(); err != nil {
 		return err
 	}
@@ -176,9 +194,24 @@ func Run() error {
 	seo := report.Categories.Seo.Score * 100
 
 	fmt.Printf("cib: %s lighthouse performance is %s\n", green(check), blue(performance, "%"))
+	if err := api.Post(fmt.Sprintf("%.2f%%", performance), api.SeriesPerformance); err != nil {
+		return err
+	}
+
 	fmt.Printf("cib: %s lighthouse accessibility is %s\n", green(check), blue(accessibility, "%"))
+	if err := api.Post(fmt.Sprintf("%.2f%%", accessibility), api.SeriesAccessibility); err != nil {
+		return err
+	}
+
 	fmt.Printf("cib: %s lighthouse best practices is %s\n", green(check), blue(bestPractices, "%"))
+	if err := api.Post(fmt.Sprintf("%.2f%%", bestPractices), api.SeriesPractices); err != nil {
+		return err
+	}
+
 	fmt.Printf("cib: %s lighthouse seo is %s\n", green(check), blue(seo, "%"))
+	if err := api.Post(fmt.Sprintf("%.2f%%", seo), api.SeriesSEO); err != nil {
+		return err
+	}
 
 	return nil
 }

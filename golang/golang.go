@@ -3,7 +3,6 @@ package golang
 import (
 	"bufio"
 	"fmt"
-	"io/ioutil"
 	"os"
 	"os/exec"
 	"strings"
@@ -71,18 +70,9 @@ func Run() error {
 
 	cli.Checkln("total coverage (statements) is", total)
 
-	res, err := api.Post(total, api.SeriesCoverage)
-	if err != nil {
+	if err := api.Post(total, api.SeriesCoverage); err != nil {
 		return err
 	}
-	defer res.Body.Close()
-
-	body, err := ioutil.ReadAll(res.Body)
-	if err != nil {
-		return err
-	}
-
-	cli.Checkf("post %s: res status code: %s, body: %s\n", api.SeriesCoverage, res.StatusCode, string(body))
 
 	// build binary to get size
 	buildArgs := []string{
@@ -107,18 +97,9 @@ func Run() error {
 	size := fmt.Sprintf("%.2fMB", float64(info.Size())/1000/1000)
 	cli.Checkln("binary file size is", size)
 
-	res, err = api.Post(size, api.SeriesFileSize)
-	if err != nil {
+	if err := api.Post(size, api.SeriesFileSize); err != nil {
 		return err
 	}
-	defer res.Body.Close()
-
-	body, err = ioutil.ReadAll(res.Body)
-	if err != nil {
-		return err
-	}
-
-	cli.Checkf("post %s: res status code: %s, body: %s\n", api.SeriesFileSize, res.StatusCode, string(body))
 
 	// done
 	cli.Checkln("I'm done. See", "https://seriesci.com/seriesci/cib")

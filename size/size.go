@@ -6,7 +6,7 @@ import (
 )
 
 // Directory returns size in kilobytes for given directory path.
-func Directory(path string) (int64, error) {
+func Directory(path string) (float64, error) {
 	var size int64
 	err := filepath.Walk(path, func(_ string, info os.FileInfo, err error) error {
 		if err != nil {
@@ -17,5 +17,5 @@ func Directory(path string) (int64, error) {
 		}
 		return err
 	})
-	return size / 1024.0, err
+	return float64(size) / 1024.0, err
 }

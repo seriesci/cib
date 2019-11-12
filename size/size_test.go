@@ -8,6 +8,6 @@ func TestDirectory(t *testing.T) {
 		t.Fatal(err)
 	}
 	if s != 123 {
-		t.Fatalf("got %d; want %d", s, 123)
+		t.Fatalf("got %f; want %f", s, 123.0)
 	}
 }

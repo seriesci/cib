@@ -3,17 +3,27 @@ package api
 import (
 	"errors"
 	"fmt"
+	"io/ioutil"
 	"net/http"
 	"net/url"
 	"os"
 	"os/exec"
 	"strings"
+
+	"github.com/seriesci/cib/cli"
 )
 
 // series names
 const (
-	SeriesCoverage = "coverage"
-	SeriesFileSize = "size"
+	SeriesCoverage      = "coverage"
+	SeriesFileSize      = "size"
+	SeriesTime          = "time"
+	SeriesBundleSize    = "bundlesize"
+	SeriesDependencies  = "dependencies"
+	SeriesPerformance   = "performance"
+	SeriesAccessibility = "accessibility"
+	SeriesPractices     = "practices"
+	SeriesSEO           = "seo"
 )
 
 // get sha depending on ci environment.
@@ -69,11 +79,11 @@ func repo() (string, error) {
 
 // Post something.
 // currently only works with GitHub Actions.
-func Post(value, series string) (*http.Response, error) {
+func Post(value, series string) error {
 	// get commit hash
 	s, err := sha()
 	if err != nil {
-		return nil, err
+		return err
 	}
 
 	data := url.Values{
@@ -84,17 +94,30 @@ func Post(value, series string) (*http.Response, error) {
 	// get repo in form owner/repo
 	r, err := repo()
 	if err != nil {
-		return nil, err
+		return err
 	}
 
 	u := fmt.Sprintf("https://seriesci.com/api/repos/%s/%s/combined", r, series)
 	req, err := http.NewRequest(http.MethodPost, u, strings.NewReader(data.Encode()))
 	if err != nil {
-		return nil, err
+		return err
 	}
 
 	req.Header.Set("Authorization", fmt.Sprintf("Token %s", os.Getenv("SERIESCI_TOKEN")))
 	req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
 
-	return http.DefaultClient.Do(req)
+	res, err := http.DefaultClient.Do(req)
+	if err != nil {
+		return err
+	}
+	defer res.Body.Close()
+
+	body, err := ioutil.ReadAll(res.Body)
+	if err != nil {
+		return err
+	}
+
+	cli.Checkf("post %s: status code: %s, body: %s\n", series, res.StatusCode, body)
+
+	return nil
 }
