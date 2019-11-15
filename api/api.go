@@ -69,7 +69,8 @@ func sha() (string, error) {
 	return strings.TrimSpace(string(out)), nil
 }
 
-func repo() (string, error) {
+// Repo returns owner and repository in the form owner/repository.
+func Repo() (string, error) {
 	// github actions
 	repo, ok := os.LookupEnv("GITHUB_REPOSITORY")
 	if ok {
@@ -107,7 +108,7 @@ func Post(value, series string) error {
 	}
 
 	// get repo in form owner/repo
-	r, err := repo()
+	r, err := Repo()
 	if err != nil {
 		return err
 	}
@@ -158,7 +159,7 @@ func CreateSeries(series string) error {
 	}
 
 	// get repo in form owner/repo
-	r, err := repo()
+	r, err := Repo()
 	if err != nil {
 		return err
 	}

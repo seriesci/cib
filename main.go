@@ -2,9 +2,11 @@ package main
 
 import (
 	"errors"
+	"fmt"
 	"os"
 
 	"github.com/fatih/color"
+	"github.com/seriesci/cib/api"
 	"github.com/seriesci/cib/cli"
 	"github.com/seriesci/cib/golang"
 	"github.com/seriesci/cib/javascript"
@@ -41,4 +43,11 @@ func main() {
 			panic(err)
 		}
 	}
+
+	repo, err := api.Repo()
+	if err != nil {
+		panic(err)
+	}
+
+	cli.Checkln("I'm done. See", cli.Blue(fmt.Sprintf("https://seriesci.com/%s", repo)))
 }

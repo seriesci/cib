@@ -111,8 +111,5 @@ func Run() error {
 		return err
 	}
 
-	// done
-	cli.Checkln("I'm done. See", cli.Blue("https://seriesci.com/seriesci/cib"))
-
 	return nil
 }
