@@ -3,10 +3,10 @@ package javascript
 import (
 	"encoding/json"
 	"errors"
-	"fmt"
 	"io/ioutil"
 
 	"github.com/fatih/color"
+	"github.com/seriesci/cib/cli"
 )
 
 const (
@@ -20,7 +20,7 @@ var (
 
 // Run runs all JavaScript related stuff.
 func Run() error {
-	fmt.Printf("cib: %s language %s detected\n", green(check), blue("JavaScript"))
+	cli.Checkf("language %s detected\n", blue("JavaScript"))
 
 	// run build script
 	packageJSON, err := ioutil.ReadFile("package.json")
@@ -43,7 +43,7 @@ func Run() error {
 		return errors.New("build script not found")
 	}
 
-	fmt.Printf("cib: %s build script %s found\n", green(check), blue(build))
+	cli.Checkf("build script %s found\n", blue(build))
 
 	// run the build
 	if err := duration(); err != nil {
