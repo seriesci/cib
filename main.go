@@ -22,7 +22,7 @@ func main() {
 	if !ok {
 		panic(errors.New("cannot find SERIESCI_TOKEN environment variable"))
 	}
-	cli.Checkf("environment variable %s found\n", "SERIESCI_TOKEN")
+	cli.Checkf("environment variable %s found\n", cli.Blue("SERIESCI_TOKEN"))
 
 	// check programming language
 	lang, err := language.Detect(".")

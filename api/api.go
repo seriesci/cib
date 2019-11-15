@@ -1,6 +1,8 @@
 package api
 
 import (
+	"bytes"
+	"encoding/json"
 	"errors"
 	"fmt"
 	"io/ioutil"
@@ -25,6 +27,19 @@ const (
 	SeriesPractices     = "practices"
 	SeriesSEO           = "seo"
 )
+
+// Descriptions returns the description for a given series name.
+var Descriptions = map[string]string{
+	SeriesCoverage:      "Code coverage",
+	SeriesFileSize:      "File size",
+	SeriesTime:          "Build time",
+	SeriesBundleSize:    "Bundle size",
+	SeriesDependencies:  "Number of dependencies",
+	SeriesPerformance:   "Lighthouse performance",
+	SeriesAccessibility: "Lighthouse accessibility",
+	SeriesPractices:     "Lighthouse best practices",
+	SeriesSEO:           "Lighthouse SEO",
+}
 
 // get sha depending on ci environment.
 func sha() (string, error) {
@@ -117,7 +132,56 @@ func Post(value, series string) error {
 		return err
 	}
 
-	cli.Checkf("post %s: status code: %s, body: %s\n", series, res.StatusCode, string(body))
+	cli.Checkf("post %s: status code: %s, body: %s\n", cli.Blue(series), cli.Blue(res.StatusCode), cli.Blue(string(body)))
+
+	return nil
+}
+
+// CreateSeriesRequest request
+type CreateSeriesRequest struct {
+	Name        string `json:"name"`
+	Description string `json:"description"`
+}
+
+// CreateSeries creates a new series.
+func CreateSeries(series string) error {
+
+	// create custom request
+	data := CreateSeriesRequest{
+		Name:        series,
+		Description: Descriptions[series],
+	}
+
+	var b bytes.Buffer
+	if err := json.NewEncoder(&b).Encode(data); err != nil {
+		return err
+	}
+
+	// get repo in form owner/repo
+	r, err := repo()
+	if err != nil {
+		return err
+	}
+
+	u := fmt.Sprintf("https://seriesci.com/api/repos/%s/series", r)
+	req, err := http.NewRequest(http.MethodPost, u, &b)
+	if err != nil {
+		return err
+	}
+	req.Header.Set("Authorization", fmt.Sprintf("Token %s", os.Getenv("SERIESCI_TOKEN")))
+
+	// send request
+	res, err := http.DefaultClient.Do(req)
+	if err != nil {
+		return err
+	}
+	defer res.Body.Close()
+
+	if res.StatusCode == http.StatusConflict {
+		cli.Checkf("series %s already exists\n", cli.Blue(series))
+	} else {
+		cli.Checkf("series %s created\n", cli.Blue(series))
+	}
 
 	return nil
 }

@@ -28,7 +28,7 @@ func Run() error {
 		return err
 	}
 
-	cli.Checkf("cover profile %s created\n", "cover.out")
+	cli.Checkf("cover profile %s created\n", cli.Blue("cover.out"))
 
 	// read code coverage file
 	funcArgs := []string{
@@ -68,7 +68,7 @@ func Run() error {
 		return err
 	}
 
-	cli.Checkln("total coverage (statements) is", total)
+	cli.Checkln("total coverage (statements) is", cli.Blue(total))
 
 	if err := api.Post(total, api.SeriesCoverage); err != nil {
 		return err
@@ -87,7 +87,7 @@ func Run() error {
 		return err
 	}
 
-	cli.Checkf("binary %s built\n", "binary_by_seriesci")
+	cli.Checkf("binary %s built\n", cli.Blue("binary_by_seriesci"))
 
 	info, err := os.Stat("binary_by_seriesci")
 	if err != nil {
@@ -95,14 +95,14 @@ func Run() error {
 	}
 
 	size := fmt.Sprintf("%.2fMB", float64(info.Size())/1000/1000)
-	cli.Checkln("binary file size is", size)
+	cli.Checkln("binary file size is", cli.Blue(size))
 
 	if err := api.Post(size, api.SeriesFileSize); err != nil {
 		return err
 	}
 
 	// done
-	cli.Checkln("I'm done. See", "https://seriesci.com/seriesci/cib")
+	cli.Checkln("I'm done. See", cli.Blue("https://seriesci.com/seriesci/cib"))
 
 	return nil
 }
