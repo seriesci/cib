@@ -30,16 +30,16 @@ func coverage(packageJSON map[string]interface{}) error {
 	}
 
 	// run code coverage
-	covArgs := []string{
+	args := []string{
 		"test",
 		"--",
 		"--coverage",
 		"--watchAll=false",
 	}
-	covCmd := exec.Command("npm", covArgs...)
-	covCmd.Stdout = os.Stdout
-	covCmd.Stderr = os.Stderr
-	if err := covCmd.Run(); err != nil {
+	cmd := exec.Command("npm", args...)
+	cmd.Stdout = os.Stdout
+	cmd.Stderr = os.Stderr
+	if err := cmd.Run(); err != nil {
 		return err
 	}
 

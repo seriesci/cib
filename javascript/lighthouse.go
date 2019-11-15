@@ -15,6 +15,13 @@ import (
 )
 
 func runLighthouse() error {
+	install := exec.Command("npm", "install", "--production", "lighthouse")
+	install.Stdout = os.Stdout
+	install.Stderr = os.Stderr
+	if err := install.Run(); err != nil {
+		return err
+	}
+
 	http.Handle("/", http.FileServer(http.Dir("build")))
 
 	server := &http.Server{
@@ -29,17 +36,17 @@ func runLighthouse() error {
 	}()
 
 	// start lighthouse
-	lighthouseArgs := []string{
+	args := []string{
 		"lighthouse",
 		"http://localhost:3000",
 		"--output=json",
 		"--output-path=./lighthouse.json",
 		`--chrome-flags="--headless"`,
 	}
-	lighthouseCMD := exec.Command("npx", lighthouseArgs...)
-	lighthouseCMD.Stdout = os.Stdout
-	lighthouseCMD.Stderr = os.Stderr
-	if err := lighthouseCMD.Run(); err != nil {
+	cmd := exec.Command("npx", args...)
+	cmd.Stdout = os.Stdout
+	cmd.Stderr = os.Stderr
+	if err := cmd.Run(); err != nil {
 		return err
 	}
 

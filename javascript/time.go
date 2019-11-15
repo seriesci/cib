@@ -12,10 +12,10 @@ import (
 func duration() error {
 	start := time.Now()
 
-	buildCmd := exec.Command("npm", "run", "build")
-	buildCmd.Stdout = os.Stdout
-	buildCmd.Stderr = os.Stderr
-	if err := buildCmd.Run(); err != nil {
+	cmd := exec.Command("npm", "run", "build")
+	cmd.Stdout = os.Stdout
+	cmd.Stderr = os.Stderr
+	if err := cmd.Run(); err != nil {
 		return err
 	}
 
