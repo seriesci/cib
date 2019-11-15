@@ -70,6 +70,11 @@ func Run() error {
 
 	cli.Checkln("total coverage (statements) is", cli.Blue(total))
 
+	// create series
+	if err := api.CreateSeries(api.SeriesCoverage); err != nil {
+		return err
+	}
+
 	if err := api.Post(total, api.SeriesCoverage); err != nil {
 		return err
 	}
@@ -96,6 +101,11 @@ func Run() error {
 
 	size := fmt.Sprintf("%.2fMB", float64(info.Size())/1000/1000)
 	cli.Checkln("binary file size is", cli.Blue(size))
+
+	// create series
+	if err := api.CreateSeries(api.SeriesFileSize); err != nil {
+		return err
+	}
 
 	if err := api.Post(size, api.SeriesFileSize); err != nil {
 		return err
