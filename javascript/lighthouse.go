@@ -58,7 +58,7 @@ func runLighthouse() error {
 	}
 
 	performance := fmt.Sprintf("%.2f%%", report.Categories.Performance.Score*100)
-	cli.Checkf("lighthouse performance is %s\n", blue(performance))
+	cli.Checkf("lighthouse performance is %s\n", cli.Blue(performance))
 	if err := api.CreateSeries(api.SeriesPerformance); err != nil {
 		return err
 	}
@@ -67,7 +67,7 @@ func runLighthouse() error {
 	}
 
 	accessibility := fmt.Sprintf("%.2f%%", report.Categories.Accessibility.Score*100)
-	cli.Checkf("lighthouse accessibility is %s\n", blue(accessibility))
+	cli.Checkf("lighthouse accessibility is %s\n", cli.Blue(accessibility))
 	if err := api.CreateSeries(api.SeriesAccessibility); err != nil {
 		return err
 	}
@@ -76,7 +76,7 @@ func runLighthouse() error {
 	}
 
 	bestPractices := fmt.Sprintf("%.2f%%", report.Categories.BestPractices.Score*100)
-	cli.Checkf("lighthouse best practices is %s\n", blue(bestPractices))
+	cli.Checkf("lighthouse best practices is %s\n", cli.Blue(bestPractices))
 	if err := api.CreateSeries(api.SeriesPractices); err != nil {
 		return err
 	}
@@ -85,7 +85,7 @@ func runLighthouse() error {
 	}
 
 	seo := fmt.Sprintf("%.2f%%", report.Categories.Seo.Score*100)
-	cli.Checkf("lighthouse seo is %s\n", blue(seo))
+	cli.Checkf("lighthouse seo is %s\n", cli.Blue(seo))
 	if err := api.CreateSeries(api.SeriesSEO); err != nil {
 		return err
 	}

@@ -4,23 +4,23 @@ import (
 	"encoding/json"
 	"errors"
 	"io/ioutil"
+	"os"
 
-	"github.com/fatih/color"
 	"github.com/seriesci/cib/cli"
-)
-
-const (
-	check = "\u2713"
-)
-
-var (
-	green = color.New(color.FgGreen).SprintFunc()
-	blue  = color.New(color.FgBlue).SprintFunc()
 )
 
 // Run runs all JavaScript related stuff.
 func Run() error {
-	cli.Checkf("language %s detected\n", blue("JavaScript"))
+	cli.Checkf("language %s detected\n", cli.Blue("JavaScript"))
+
+	// check if node_modules folder exists
+	if _, err := os.Stat("node_modules"); os.IsNotExist(err) {
+		cli.Checkf("could not find %s. running %s\n", cli.Blue("node_modules"), cli.Blue("npm ci"))
+
+		if err := install(); err != nil {
+			return err
+		}
+	}
 
 	// run build script
 	packageJSON, err := ioutil.ReadFile("package.json")
@@ -43,7 +43,7 @@ func Run() error {
 		return errors.New("build script not found")
 	}
 
-	cli.Checkf("build script %s found\n", blue(build))
+	cli.Checkf("build script %s found\n", cli.Blue(build))
 
 	// run the build
 	if err := duration(); err != nil {

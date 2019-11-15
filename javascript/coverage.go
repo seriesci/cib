@@ -58,7 +58,7 @@ func coverage(packageJSON map[string]interface{}) error {
 	cs := float64(coverage.Project.Metrics.CoveredStatements) / float64(coverage.Project.Metrics.Statements) * 100
 	str := fmt.Sprintf("%.2f%%", cs)
 
-	cli.Checkf("code coverage is %s\n", blue(str))
+	cli.Checkf("code coverage is %s\n", cli.Blue(str))
 
 	// create series
 	if err := api.CreateSeries(api.SeriesCoverage); err != nil {

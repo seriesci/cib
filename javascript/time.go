@@ -21,7 +21,7 @@ func duration() error {
 
 	elapsed := time.Since(start)
 
-	cli.Checkf("build took %s\n", blue(elapsed))
+	cli.Checkf("build took %s\n", cli.Blue(elapsed))
 
 	// create series
 	if err := api.CreateSeries(api.SeriesTime); err != nil {

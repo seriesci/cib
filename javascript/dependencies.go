@@ -14,7 +14,7 @@ func dependencies(packageJSON map[string]interface{}) error {
 		return errors.New("dependencies not found")
 	}
 
-	cli.Checkf("%s dependencies found\n", blue(len(dependencies)))
+	cli.Checkf("%s dependencies found\n", cli.Blue(len(dependencies)))
 
 	// create series
 	if err := api.CreateSeries(api.SeriesDependencies); err != nil {

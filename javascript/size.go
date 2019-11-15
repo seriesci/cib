@@ -15,7 +15,7 @@ func bundlesize() error {
 	}
 
 	str := fmt.Sprintf("%fK", s)
-	cli.Checkf("total size of \"build\" directory is %s\n", blue(str))
+	cli.Checkf("total size of \"build\" directory is %s\n", cli.Blue(str))
 
 	// create series
 	if err := api.CreateSeries(api.SeriesBundleSize); err != nil {
